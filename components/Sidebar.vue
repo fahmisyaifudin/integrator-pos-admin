@@ -9,9 +9,9 @@
     </div>
     <hr class="horizontal light mt-0 mb-2">
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
-        <MySidebarItem name="Dashboard" icon="dashboard" :isActive="true"/>
-        <MySidebarItem name="Profile" icon="manage_accounts"/>
-        <MySidebarItem name="Transaction" icon="point_of_sale"/>
+        <MySidebarItem name="Dashboard" icon="dashboard" link='/' />
+        <MySidebarItem name="Profile" icon="manage_accounts" link='/profile'/>
+        <MySidebarItem name="Transaction" icon="point_of_sale" link='/transaction'/>
     </div>
   </aside>
 </template>

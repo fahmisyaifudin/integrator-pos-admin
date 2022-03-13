@@ -10,7 +10,7 @@
                     <div class="card-header pb-0 p-3">
                     <div class="row">
                         <div class="col-6 d-flex align-items-center">
-                        <h6 class="mb-0">Dashboard</h6>
+                        <h6 class="mb-0">{{ $store.state.general.menuActive }}</h6>
                         </div>
                     </div>
                     </div>
@@ -29,6 +29,7 @@
 import MyNavbar from "@@/components/Navbar";
 import MySidebar from "@@/components/Sidebar";
 export default {
+  middleware: 'auth',
   components: {
     MyNavbar,
     MySidebar
