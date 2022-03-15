@@ -1,8 +1,10 @@
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 export default function ({ redirect, store, app }) {
+        store.commit('general/setLoading', true)
         const auth = getAuth();
         onAuthStateChanged(auth, (user) => {
+            store.commit('general/setLoading', false)
             if (user) {
                 store.commit('auth/setToken', { 
                     accessToken: user.accessToken, 

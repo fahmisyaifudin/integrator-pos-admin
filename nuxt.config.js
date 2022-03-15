@@ -43,7 +43,8 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-   '~/plugins/firebase.js'
+   '~/plugins/firebase.js',
+   '~/plugins/axios.js'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -65,11 +66,15 @@ export default {
   },
 
   env: {
+    baseURL: process.env.BASE_URL,
     FB_API_KEY: process.env.FB_API_KEY,
     FB_AUTH_DOMAIN: process.env.FB_AUTH_DOMAIN,
     FB_PROJECT_ID: process.env.FB_PROJECT_ID,
     FB_STORAGE_BUCKET: process.env.FB_STORAGE_BUCKET,
     FB_MESSAGE_SENDER_ID: process.env.FB_MESSAGE_SENDER_ID,
     FB_APP_ID: process.env.FB_APP_ID
+  },
+  axios: {
+    baseURL: process.env.BASE_URL
   }
 }
