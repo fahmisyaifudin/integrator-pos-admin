@@ -5,8 +5,9 @@
       <MySidebar />
       <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <MyNavbar />
-        <div class="container-fluid py-2">
-            <div class="row"> 
+        <div class="container-fluid py-4">
+          <Nuxt />
+            <!-- <div class="row"> 
               <div class="col-md-12">
                   <div class="card">
                       <div class="card-header pb-0 p-3">
@@ -21,7 +22,7 @@
                       </div>
                   </div>
                   </div>
-              </div>
+              </div> -->
         </div>
       </main>
     </div>
@@ -38,7 +39,7 @@ export default {
     MyNavbar,
     MySidebar,
     Loader
-  }
+  },
   
 }
 </script>

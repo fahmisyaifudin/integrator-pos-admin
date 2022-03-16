@@ -1,6 +1,6 @@
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
-export default function ({ redirect, store, app }) {
+export default function ({ redirect, store, app, $axios }) {
         store.commit('general/setLoading', true)
         const auth = getAuth();
         onAuthStateChanged(auth, (user) => {

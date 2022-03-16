@@ -1,8 +1,4 @@
 export default function ({ $axios, redirect, store, $toast }) {
-    if (store.state.auth.accessToken) {
-        this.$axios.setToken(store.state.auth.accessToken, 'Bearer')
-    }
-
     $axios.onRequest(config => {
         store.commit('general/setLoading', true)
     })
