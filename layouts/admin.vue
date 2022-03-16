@@ -40,6 +40,9 @@ export default {
     MySidebar,
     Loader
   },
+  created(){
+    
+  }
   
 }
 </script>
