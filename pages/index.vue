@@ -8,7 +8,7 @@
               <i class="material-icons opacity-10">weekend</i>
             </div>
             <div class="text-end pt-1">
-              <p class="text-sm mb-0 text-capitalize">This Month Earnings</p>
+              <p class="text-sm mb-0 text-capitalize">This Month Omzet</p>
               <h4 class="mb-0">{{ totalEarn }}</h4>
             </div>
           </div>
@@ -43,7 +43,17 @@
           <h5> Trend Sales on This Month</h5>
         </div>
         <div class="card-body">
-            <LineChart :chartdata="chartData" :options="chartOptions"/>
+            <client-only>
+              <div>
+                <VueApexCharts
+                  ref="demoChart"
+                  height="400"
+                  type="area"
+                  :options="chartOptions"
+                  :series="series"
+                ></VueApexCharts>
+              </div>
+            </client-only>
         </div>
       </div>
     </div>
@@ -52,53 +62,33 @@
 </template>
 
 <script>
-import LineChart from "@@/components/chart/LineChart";
+
 export default {
     layout: 'admin',
-    components: {
-      LineChart
+    components:{
+      VueApexCharts: () => import('vue-apexcharts')
     },
     data(){
       return {
         totalEarn: 0,
         totalTrx: 0,
         chartOptions: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        xAxes: [{
-                            type: 'time',
-                            time: {
-                               unit: 'day'
-                            },
-                            distribution: 'series',
-                            gridLines: {
-                                display:false
-                            }
-                        }],
-                        yAxes: [{
-                            gridLines: {
-                                display:true
-                            }		
-                        }]
-                    }
-        },
-        chartData: {
-              labels: [],
-              datasets: [
-                  {
-                      label: "Total Earning",
-                      fill: !1,
-                      borderColor: "#03a9f4",
-                      pointBorderColor: "#03a9f4",
-                      pointBackgroundColor: "#FFF",
-                      pointBorderWidth: 2,
-                      pointHoverBorderWidth: 2,
-                      pointRadius: 4,
-                      data: []
-                  }
-              ]
+          chart: {
+            id: 'vuechart-example',
+            toolbar: {
+              show: false
+            }
+          },
+          xaxis: {
+            type: "datetime"
           }
+        },
+        series: [
+          {
+            name: 'Total Omzet',
+            data: []
+          }
+        ]
       }
     },
     beforeCreate(){
@@ -110,13 +100,21 @@ export default {
           this.totalEarn = res.data.data.nominal
           this.totalTrx = res.data.data.count
         })
-        
+
         this.$axios.get('/api/dashboard/graph').then(res => {
-          res.data.data.forEach(element => {
-           this.chartData.labels.push(element.day)
-            this.chartData.datasets[0].data.push(element.sum)
-          });
+          let data = res.data.data.map(val => {
+            return {
+              x: val.day,
+              y: val.sum
+            }
+          })
+          this.$refs.demoChart.updateSeries([{
+            data: data
+          }])
         })
+    },
+    mounted(){
+      
     }
 }
 </script>
