@@ -9,7 +9,7 @@
             </div>
             <div class="text-end pt-1">
               <p class="text-sm mb-0 text-capitalize">This Month Omzet</p>
-              <h4 class="mb-0">{{ totalEarn }}</h4>
+              <h4 class="mb-0">{{ $convertToRupiah(totalEarn) }}</h4>
             </div>
           </div>
           <hr class="dark horizontal my-0">
@@ -81,6 +81,11 @@ export default {
           },
           xaxis: {
             type: "datetime"
+          },
+          yaxis: {
+            labels: {
+              formatter: (value) => { return this.$convertToRupiah(value) },
+            }
           }
         },
         series: [

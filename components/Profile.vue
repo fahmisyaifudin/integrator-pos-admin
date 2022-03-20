@@ -2,7 +2,7 @@
     <ul class="navbar-nav  justify-content-end">            
         <li class="nav-item dropdown pe-2 d-flex align-items-center">
             <a href="javascript:;" class="nav-link text-body p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="fa fa-user me-sm-1"></i>
+            <i class="material-icons me-sm-1" style="vertical-align: 'text-bottom'">account_circle</i>
             <span class="d-sm-inline d-none">{{ $store.state.profile.displayName }}</span>
             </a>
             <ul class="dropdown-menu  dropdown-menu-end  px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">

@@ -16,6 +16,7 @@
     "cookie-universal-nuxt": "^2.1.5",
     "core-js": "^3.19.3",
     "firebase": "^9.6.8",
+    "moment": "^2.29.1",
     "nuxt": "^2.15.8",
     "vue": "^2.6.14",
     "vue-apexcharts": "^1.6.2",
@@ -23,5 +24,7 @@
     "vue-template-compiler": "^2.6.14",
     "webpack": "^4.46.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@nuxtjs/vuetify": "^1.12.3"
+  }
 }

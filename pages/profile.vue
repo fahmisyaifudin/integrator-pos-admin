@@ -5,7 +5,7 @@
           <div class="card-header  pb-0 p-3">
             <div class="row">
               <div class="col-6 d-flex align-items-center">
-                  <h6 class="mb-0">Fahmi Syaifudin</h6>
+                  <h6 class="mb-0">{{ $store.state.profile.displayName }}</h6>
               </div>
               <div class="col-6 d-flex justify-content-end">
                 <button class="btn btn-warning" @click="resetPassword">Reset Password</button>
@@ -74,7 +74,6 @@ export default {
     },
     created(){
       this.$axios.get('/api/profile').then(res => {
-        console.log(res.data);
           this.input.name = res.data.data.name
           this.input.address = res.data.data.address
       })
