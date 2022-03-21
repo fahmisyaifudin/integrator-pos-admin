@@ -131,8 +131,16 @@ export default {
     methods: {
       openDetail(id){
         this.$axios.get(`/api/transaction/${id}`).then(res => {
-          this.detail = res.data.data
-          this.detail.sum = res.data.data.transaction_items.reduce((a, b) => a.qty * a.price + b.qty * b.price)
+          this.detail ={
+            ...res.data.data,
+            nominal: this.$convertToRupiah(res.data.data.nominal),
+            createdAt: moment(res.data.data.createAt).format('MMM DD, YYYY HH:mm'),
+          }
+          let sum = 0
+          res.data.data.transaction_items.forEach(element => {
+            sum += element.qty * element.price
+          });
+          this.detail.sum = sum
         })
       },
       reprint(id){
