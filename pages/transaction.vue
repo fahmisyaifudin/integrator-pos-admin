@@ -22,7 +22,7 @@
                 <v-icon
                   small
                   class="mr-2"
-                  @click="() => { dialog = true; openDetail(item.id) }"
+                  @click="() => { dialog = true; detail.id = item.id; openDetail(item.id) }"
                 >
                   visibility
                 </v-icon>
@@ -85,7 +85,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <button class="btn btn-sm" @click="dialog = false">Close</button>
-          <button class="btn btn-sm btn-success" @click="dialog = false">Print</button>
+          <button class="btn btn-sm btn-success" @click="() => { dialog = false; reprint(detail.id) }">Print</button>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -133,6 +133,13 @@ export default {
         this.$axios.get(`/api/transaction/${id}`).then(res => {
           this.detail = res.data.data
           this.detail.sum = res.data.data.transaction_items.reduce((a, b) => a.qty * a.price + b.qty * b.price)
+        })
+      },
+      reprint(id){
+        this.$axios.get(`/api/reprint/${id}`).then(res => {
+          if (res.status = 200) {
+            this.$toast.success('Success !', { duration: 3000})
+          }
         })
       }
     },
