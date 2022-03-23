@@ -124,7 +124,7 @@ export default {
           this.transactions = res.data.data.map(value => ({
             ...value,
             nominal: this.$convertToRupiah(value.nominal),
-            createdAt: moment(value.createAt).format('MMM DD, YYYY HH:mm'),
+            createdAt: moment(value.createdAt).format('MMM DD, YYYY HH:mm'),
           }))
       })
     },
