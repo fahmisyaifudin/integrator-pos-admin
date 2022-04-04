@@ -80,6 +80,14 @@
               <th colspan="3">Total</th>
               <th>{{  $convertToRupiah(detail.sum) }}</th>
             </tr>
+            <tr>
+              <td colspan="3">Cash</td>
+              <td>{{ $convertToRupiah(detail.cash) }}</td>
+            </tr>
+            <tr>
+              <td colspan="3">Change</td>
+              <td>{{ $convertToRupiah(detail.sum - detail.cash) }}</td>
+            </tr>
           </table>
         </v-card-text>
         <v-card-actions>
@@ -115,7 +123,8 @@ export default {
         dialog: false,
         detail: {
           transaction_items: [],
-          sum: 0
+          sum: 0,
+          cash: 0,
         }
       }
     },
@@ -135,6 +144,7 @@ export default {
             ...res.data.data,
             nominal: this.$convertToRupiah(res.data.data.nominal),
             createdAt: moment(res.data.data.createAt).format('MMM DD, YYYY HH:mm'),
+            cash: res.data.data.cash ? res.data.data.cash : 0 
           }
           let sum = 0
           res.data.data.transaction_items.forEach(element => {
