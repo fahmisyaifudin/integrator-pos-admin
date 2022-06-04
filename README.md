@@ -1,69 +1,84 @@
-# tugas-akhir
+# ESCPOS Gateway
 
-## Build Setup
+ESCPOS Gateway adalah project yang bertujuan untuk memudahkan para developer dalam menintegrasikan aplikasi miliknya agar terhubung dengan thermal printer yang support ESC/POS. Terdapat beberapa cara yang disediakan untuk menghubungkannya, diantara lain :
 
-```bash
-# install dependencies
-$ yarn install
+- Via API
+- Via MQTT
+- Via Wordpress Webhook
 
-# serve with hot reload at localhost:3000
-$ yarn dev
+## Installation
 
-# build for production and launch server
-$ yarn build
-$ yarn start
+### Installing NodeJS
 
-# generate static project
-$ yarn generate
+ESCPOS Gateway membutuhkan nodejs untuk menjalankannya, silahkan melihat dan membaca <a href="https://nodejs.org/en/download/">dokumentasi resmi</a>, bagaimana menginstall nodejs kedalam system anda
+
+### Clone Repository
+
+```
+$ git clone https://gitlab.com/fahmisyaifudin/mqtt-escpos-gateway.$ git escpos-gateway
 ```
 
-For detailed explanation on how things work, check out the [documentation](https://nuxtjs.org).
+### Install Dependencies
 
-## Special Directories
+```
+$ cd escpos-gateway
+$ yarn install
+```
 
-You can create the following extra directories, some of which have special behaviors. Only `pages` is required; you can delete them if you don't want to use their functionality.
+### Setting Environment
 
-### `assets`
+- Buat file `.env`, copy paste credentials pada <a href="https://flamboyant-torvalds-8077b4.netlify.app/">web admin</a>, pastikan untuk login dan register terlebih dahulu
+- Pada variable `SERIAL`, isikan dengan port serial yang didapatkan berdasarkan device masing masing, cek disini untuk mengetahuinya
 
-The assets directory contains your uncompiled assets such as Stylus or Sass files, images, or fonts.
+### Running
 
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/assets).
+```
+$ node index.js
+```
 
-### `components`
+## Bagaimana Cara Menggunakan?
 
-The components directory contains your Vue.js components. Components make up the different parts of your page and can be reused and imported into your pages, layouts and even other components.
+### Via API
 
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/components).
+Lakukan request ke API URL dengan TOKEN yang didapatkan `.env` sebelumnya
+| URL | ${API_URL}/print |
+| ------------- | ----------------------------------------------------------------------------- |
+| Method | POST |
+| Header | Content-Type: application/json <br> X-Auth-Token: ${TOKEN} |
+| Body | cashier (string) <br> customer (string) <br> cash (number) <br> items (array) |
+| items (array) | name (string) <br> qty (number) <br> price (number) |
 
-### `layouts`
+### Via MQTT
 
-Layouts are a great help when you want to change the look and feel of your Nuxt app, whether you want to include a sidebar or have distinct layouts for mobile and desktop.
+Sebelum menggunakan mqtt, install <a href="https://mosquitto.org/download/">mosquitto</a> di device anda, kemudian publish message seperti contoh berikut
 
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/layouts).
+```
+mosquitto_pub -h ${HOST} //
+            -p ${PORT} //
+            -u ${USER} //
+            -P ${PASSWORD} //
+            -t ${TOPIC} //
+            -m ${MESSAGE}
+```
 
+Dengan message berisi
+| Key | Value |
+| ---------- | ----- |
+| cashier | nama kasir (string) |
+| customer | nama customer/pembeli (string) |
+| cash | jumlah uang (number) |
+| date | tanggal struk dibuat (YYYY-MM-DD HH:mm:ss) |
+| items (array) | - <b>name</b> : nama produk/ item (string) <br> - <b>qty</b> : jumlah produk/item (number) <br> - <b>price</b> : harga produk satuan (number) |
 
-### `pages`
+Semua message tersebut disusun dalam json string sebelum dikirim
 
-This directory contains your application views and routes. Nuxt will read all the `*.vue` files inside this directory and setup Vue Router automatically.
+### Via Wordpress (Using Webhook)
 
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/get-started/routing).
+Plugin <a href="https://woocommerce.com">Woocommmerce</a> yang disediakan oleh wordpress, terdapat fitur webhook yang disediakan, silahkan baca <a href="https://woocommerce.com/document/webhooks/">didokumentasi resminya </a>
 
-### `plugins`
-
-The plugins directory contains JavaScript plugins that you want to run before instantiating the root Vue.js Application. This is the place to add Vue plugins and to inject functions or constants. Every time you need to use `Vue.use()`, you should create a file in `plugins/` and add its path to plugins in `nuxt.config.js`.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/plugins).
-
-### `static`
-
-This directory contains your static files. Each file inside this directory is mapped to `/`.
-
-Example: `/static/robots.txt` is mapped as `/robots.txt`.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/static).
-
-### `store`
-
-This directory contains your Vuex store files. Creating a file in this directory automatically activates Vuex.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/store).
+- Pergi ke WooCommerce -> Settings -> Webhook
+- Buat Webhook
+- Pada Topic isi dengan "Order Created"
+- Pada delivery URL silahkan isi dengan URL berikut
+  ` ${API_URL}/hook/${TOKEN}`
+- Anda dapat melihat log dari webhook pada menu Status -> Logs
