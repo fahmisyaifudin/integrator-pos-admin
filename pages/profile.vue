@@ -8,12 +8,8 @@
                   <h6 class="mb-0">{{ $store.state.profile.displayName }}</h6>
               </div>
               <div class="col-6 d-flex justify-content-end">
+                <button class="btn btn-info mx-2" @click="downloadConf">Download Configuration</button>
                 <button class="btn btn-warning" @click="resetPassword">Reset Password</button>
-              </div>
-            </div>
-            <div class="row">
-              <div class="alert alert-light" role="alert">
-               <b>Auth Token : </b> {{ $store.state.profile.uid }}
               </div>
             </div>
           </div>
@@ -92,6 +88,20 @@ export default {
             const errorMessage = error.message;
             // ..
           });
+      },
+      downloadConf(){
+        this.$axios({
+          url: '/api/download-config',
+          method: 'GET',
+          responseType: 'blob',
+        }).then(res => {
+            const url = window.URL.createObjectURL(new Blob([res.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'config.json');
+            document.body.appendChild(link);
+            link.click();
+        })
       },
       updateProfile(){
         this.$axios.put('/api/profile', this.input).then(res => {
