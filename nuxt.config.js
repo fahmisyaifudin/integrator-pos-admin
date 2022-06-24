@@ -45,7 +45,8 @@ export default {
   plugins: [
    '~/plugins/firebase.js',
    '~/plugins/axios.js',
-   '~/plugins/function.js'
+   '~/plugins/function.js',
+   '~/plugins/phone-mask.js'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

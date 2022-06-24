@@ -19,7 +19,7 @@
                       <input type="email" class="form-control" placeholder="Email" v-model="input.email">
                     </div>
                     <div class="input-group input-group-outline mb-3">
-                      <input type="phone" class="form-control" placeholder="Phone" v-model="input.phone">
+                      <input type="text" class="form-control"  placeholder="Phone" ref="input" v-mask="'+62 ___ ___ ___ __'"  v-model="input.phone">
                     </div>
                     <div class="input-group input-group-outline mb-3">
                       <input type="password" class="form-control" placeholder="Password" v-model="input.password">
@@ -69,6 +69,7 @@ export default {
     },
     methods: {
       async signUp(){
+        this.input.phone = `+${this.$refs.input.clean}`
         const response = await this.$axios.post('/register', this.input)
         if (response.status == 200) {
           this.$toast.success('Your account was registered, please login!', { duration: 3000})

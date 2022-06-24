@@ -102,7 +102,7 @@ export default {
     },
     created(){
         this.$axios.get('/api/dashboard/summary').then(res => {
-          this.totalEarn = res.data.data.nominal
+          this.totalEarn = res.data.data.nominal ? res.data.data.nominal : 0
           this.totalTrx = res.data.data.count
         })
 
